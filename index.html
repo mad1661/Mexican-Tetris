@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0e14" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>PASAJEROS DEL FUTURO — Transport Simulator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
@@ -88,6 +91,20 @@
         <button id="musicBtn" class="btn btn--ghost" aria-pressed="false">♪ MUSIC: OFF</button>
       </div>
     </aside>
+
+    <!-- ===================== TOUCH CONTROLS (mobile) ===================== -->
+    <div id="touch" class="touch">
+      <div class="touch__cluster touch__cluster--move">
+        <button class="tbtn" data-act="left" aria-label="move left">&#9664;</button>
+        <button class="tbtn" data-act="soft" aria-label="soft drop">&#9660;</button>
+        <button class="tbtn" data-act="right" aria-label="move right">&#9654;</button>
+      </div>
+      <div class="touch__cluster touch__cluster--act">
+        <button class="tbtn tbtn--small" data-act="hold" aria-label="hold">HOLD</button>
+        <button class="tbtn" data-act="rotate" aria-label="rotate">&#10227;</button>
+        <button class="tbtn tbtn--drop" data-act="hard" aria-label="hard drop">DROP</button>
+      </div>
+    </div>
   </div>
 
   <!-- =========================================================

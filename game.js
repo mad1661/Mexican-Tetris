@@ -504,6 +504,51 @@
     else startGame();
   });
 
+  // ---------- touch controls ----------
+  (function setupTouch() {
+    const pad = document.getElementById("touch");
+    if (!pad) return;
+    const actions = {
+      left: () => move(-1, 0),
+      right: () => move(1, 0),
+      soft: () => softDrop(),
+      rotate: () => rotate(1),
+      hard: () => hardDrop(),
+      hold: () => doHold(),
+    };
+    const repeatable = { left: true, right: true, soft: true };
+
+    pad.querySelectorAll(".tbtn").forEach((btn) => {
+      const act = btn.dataset.act;
+      let holdTimer = null, repTimer = null;
+      const fire = () => { if (state === "playing") actions[act](); };
+      const start = (e) => {
+        e.preventDefault();
+        if (typeof btn.setPointerCapture === "function" && e.pointerId != null) {
+          try { btn.setPointerCapture(e.pointerId); } catch (_) {}
+        }
+        btn.classList.add("is-down");
+        fire();
+        if (repeatable[act]) {
+          holdTimer = setTimeout(() => {
+            repTimer = setInterval(fire, act === "soft" ? 55 : 105);
+          }, 220);
+        }
+      };
+      const end = (e) => {
+        if (e) e.preventDefault();
+        btn.classList.remove("is-down");
+        clearTimeout(holdTimer); clearInterval(repTimer);
+        holdTimer = repTimer = null;
+      };
+      btn.addEventListener("pointerdown", start);
+      btn.addEventListener("pointerup", end);
+      btn.addEventListener("pointercancel", end);
+      btn.addEventListener("lostpointercapture", end);
+      btn.addEventListener("contextmenu", (e) => e.preventDefault());
+    });
+  })();
+
   // ---------- music loop hook ----------
   function tryStartMusic() {
     if (ui.musicBtn.getAttribute("aria-pressed") === "true") {
