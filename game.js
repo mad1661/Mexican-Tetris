@@ -100,6 +100,7 @@
     overlay: $("overlay"), overlayTitle: $("overlayTitle"),
     overlayText: $("overlayText"), overlayArt: $("overlayArt"), startBtn: $("startBtn"),
     driveTruck: $("driveTruck"), musicBtn: $("musicBtn"), bgm: $("bgm"),
+    pauseBtn: $("pauseBtn"),
   };
 
   // ---------- game state ----------
@@ -432,8 +433,12 @@
     ui.overlayText.innerHTML = html;
     ui.overlayArt.hidden = !busted;
     ui.startBtn.textContent = busted ? "RUN AGAIN" : "START SHIFT";
+    ui.pauseBtn.hidden = true;
   }
-  function hideOverlay() { ui.overlay.classList.add("hidden"); }
+  function hideOverlay() {
+    ui.overlay.classList.add("hidden");
+    ui.pauseBtn.hidden = false;
+  }
 
   // ---------- loop ----------
   function tick(time) {
@@ -502,6 +507,10 @@
   ui.startBtn.addEventListener("click", () => {
     if (state === "paused") togglePause();
     else startGame();
+  });
+
+  ui.pauseBtn.addEventListener("click", () => {
+    if (state === "playing" || state === "paused") togglePause();
   });
 
   // ---------- touch controls ----------

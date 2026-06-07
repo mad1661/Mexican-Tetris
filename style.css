@@ -129,6 +129,30 @@ canvas { display: block; image-rendering: pixelated; }
   touch-action: none;
 }
 
+/* pause button (top-right of the board) */
+.pause-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 7;
+  width: 34px;
+  height: 34px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text);
+  background: rgba(20, 26, 38, .8);
+  border: 2px solid #5a6985;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,.5);
+}
+.pause-btn[hidden] { display: none; }
+.pause-btn:active { transform: translateY(1px); }
+
 /* drive-off truck */
 .drive-truck {
   position: absolute;
@@ -249,44 +273,69 @@ canvas { display: block; image-rendering: pixelated; }
     max-width: 460px;
   }
 
-  /* stage / board first and sized to the viewport height */
-  .stage { order: 0; width: 100%; gap: 8px; }
-  .marquee h1 { font-size: 14px; letter-spacing: 0; }
-  .marquee p { font-size: 7px; margin-top: 5px; }
+  /* stage / board first and sized to the viewport height (bigger now) */
+  .stage { order: 0; width: 100%; gap: 4px; }
+  .marquee h1 { font-size: 12px; letter-spacing: 0; }
+  .marquee p { display: none; }
 
   .board-wrap {
-    height: min(46vh, 470px);
+    height: min(60vh, 640px);
     width: max-content;
     margin: 0 auto;
-    padding: 7px;
+    padding: 6px;
   }
   #board { height: 100%; width: auto; }
+  .pause-btn { top: 12px; right: 12px; width: 38px; height: 38px; }
 
-  /* compact info strips */
+  /* ---- condensed HUD: two tight rows ---- */
   .panel {
     order: 1;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: stretch;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
   }
-  .card { padding: 8px; flex: 0 0 auto; }
-  .card__title { font-size: 8px; margin-bottom: 6px; }
+  .card { padding: 6px 7px; flex: 0 0 auto; border-width: 2px; }
+  .card__title { font-size: 7px; margin-bottom: 4px; }
+  .hint { display: none; }
 
-  /* shrink the side previews */
-  #hold { width: 76px; }
-  #next { height: 108px; width: auto; }
-  .card--truck { flex: 1 1 170px; max-width: 230px; }
-  .truck-readout img { width: 40px; }
-  .hint { margin-top: 3px; }
+  /* mini hold / next previews */
+  #hold { width: 46px; }
+  #next { height: 60px; width: auto; }
 
-  .stats { flex: 1 1 150px; grid-template-columns: 1fr 1fr; gap: 6px; }
+  /* current-truck card collapses to RIG# + capacity bar only */
+  .card--truck {
+    flex: 1 1 150px;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .card--truck .card__title { display: none; }
+  .truck-readout { margin-bottom: 5px; }
+  .truck-readout img { display: none; }
+  .truck-readout__meta .muted { display: none; }
+  .truck-no { font-size: 8px; }
+  .capacity__bar { height: 12px; }
+  .capacity__label { font-size: 7px; margin-top: 3px; }
+
+  /* stats inline + music share the second row */
+  .stats {
+    flex: 1 1 210px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 6px;
+  }
+  .stat { gap: 2px; }
+  .stat .muted { font-size: 6px; }
   .stat b { font-size: 11px; }
 
-  /* hide pure decoration on small screens */
   .props img { display: none; }
-  .props { flex: 1 1 120px; padding: 8px; }
+  .props { flex: 0 0 auto; padding: 6px; align-self: center; }
+  .btn--ghost { margin-top: 0; padding: 8px 10px; }
+
   .overlay .controls { display: none; }
   .overlay__inner { padding: 14px; }
   #overlayTitle { font-size: 14px; }
@@ -296,27 +345,19 @@ canvas { display: block; image-rendering: pixelated; }
     order: 2;
     display: flex;
     justify-content: space-between;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
     margin-top: 2px;
     touch-action: none;
   }
-  .touch__cluster {
-    display: grid;
-    gap: 8px;
-    flex: 1 1 0;
-  }
-  .touch__cluster--move {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .touch__cluster--act {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .touch__cluster button { height: 52px; }
+  .touch__cluster { display: grid; gap: 7px; flex: 1 1 0; }
+  .touch__cluster--move { grid-template-columns: repeat(3, 1fr); }
+  .touch__cluster--act { grid-template-columns: repeat(3, 1fr); }
+  .touch__cluster button { height: 46px; }
 }
 
 /* very small / short phones: trim board a touch more */
-@media (max-height: 680px) and (pointer: coarse) {
-  .board-wrap { height: 46vh; }
-  .touch__cluster button { height: 50px; }
+@media (max-height: 700px) and (pointer: coarse) {
+  .board-wrap { height: 52vh; }
+  .touch__cluster button { height: 42px; }
 }
