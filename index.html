@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PASAJEROS DEL FUTURO — Transport Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===================== LEFT PANEL ===================== -->
+    <aside class="panel panel--left">
+      <div class="card">
+        <h2 class="card__title">HOLD</h2>
+        <canvas id="hold" width="160" height="120"></canvas>
+        <p class="hint">[C]</p>
+      </div>
+
+      <div class="card card--truck">
+        <h2 class="card__title">CURRENT TRUCK</h2>
+        <div class="truck-readout">
+          <img id="truckIcon" src="assets/sprites/truck.png" alt="semi truck" />
+          <div class="truck-readout__meta">
+            <span class="truck-no">RIG #<b id="truckNo">1</b></span>
+            <span class="muted">TOTAL CAPACITY</span>
+          </div>
+        </div>
+        <div class="capacity">
+          <div class="capacity__bar"><span id="capacityFill" style="width:0%"></span></div>
+          <div class="capacity__label">
+            <span id="loaded">0</span> / <span id="quota">40</span> pasajeros
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===================== CENTER STAGE ===================== -->
+    <main class="stage">
+      <header class="marquee">
+        <h1>PASAJEROS&nbsp;DEL&nbsp;FUTURO</h1>
+        <p>TRANSPORT SIMULATOR · pack 'em in before <span class="migra">LA&nbsp;MIGRA</span> shows up</p>
+      </header>
+
+      <div class="board-wrap">
+        <canvas id="board" width="320" height="640"></canvas>
+
+        <!-- Truck drive-off animation layer -->
+        <img id="driveTruck" class="drive-truck" src="assets/sprites/truck.png" alt="" />
+
+        <!-- Overlay: start / pause / busted -->
+        <div id="overlay" class="overlay">
+          <div class="overlay__inner">
+            <img id="overlayArt" class="overlay__art" src="assets/sprites/agent.png" alt="" hidden />
+            <h2 id="overlayTitle">MEXICAN&nbsp;TETRIS</h2>
+            <p id="overlayText">Fill the truck. When it's packed, it rolls out and a fresh rig pulls up.<br/>Let the stack hit the roof and the border patrol busts you.</p>
+            <button id="startBtn" class="btn">START SHIFT</button>
+            <ul class="controls">
+              <li><b>&larr; &rarr;</b> move</li>
+              <li><b>&uarr; / Z</b> rotate</li>
+              <li><b>&darr;</b> soft drop</li>
+              <li><b>Space</b> hard drop</li>
+              <li><b>C</b> hold &nbsp;·&nbsp; <b>P</b> pause</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===================== RIGHT PANEL ===================== -->
+    <aside class="panel panel--right">
+      <div class="card">
+        <h2 class="card__title">NEXT</h2>
+        <canvas id="next" width="160" height="320"></canvas>
+      </div>
+
+      <div class="card stats">
+        <div class="stat"><span class="muted">SCORE</span><b id="score">0</b></div>
+        <div class="stat"><span class="muted">RIGS RUN</span><b id="rigs">0</b></div>
+        <div class="stat"><span class="muted">LEVEL</span><b id="level">1</b></div>
+        <div class="stat"><span class="muted">LINES</span><b id="lines">0</b></div>
+      </div>
+
+      <div class="card props">
+        <img src="assets/sprites/crate.png" alt="crate" />
+        <img src="assets/sprites/cooler.png" alt="cooler" />
+        <button id="musicBtn" class="btn btn--ghost" aria-pressed="false">♪ MUSIC: OFF</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- =========================================================
+       MUSIC / LOOP SLOT
+       Drop a looping track at assets/audio/music.mp3 and it will
+       auto-wire to the ♪ MUSIC button. Add more <source> lines for
+       extra formats. Left intentionally empty so you can supply your
+       own loop. See README.md ("Music") for details.
+       ========================================================= -->
+  <audio id="bgm" loop preload="auto">
+    <source src="assets/audio/music.mp3" type="audio/mpeg" />
+    <source src="assets/audio/music.ogg" type="audio/ogg" />
+  </audio>
+
+  <script src="game.js"></script>
+</body>
+</html>
